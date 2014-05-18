@@ -1,0 +1,200 @@
+" Vundle setting
+" make sure on the top vim .vimrc
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+"Required
+Bundle 'gmarik/vundle'
+
+" Personal Plugins
+" super tab plugin
+Bundle 'ervandew/supertab'
+" comment plugin, use (\|,)c* to add comment
+Bundle 'scrooloose/nerdcommenter'
+" you complete me plugin, YCM
+Bundle 'Valloric/YouCompleteMe'
+" c++ hightlight plugin
+Bundle 'octol/vim-cpp-enhanced-highlight'
+" minibuf plugin
+Bundle 'fholgado/minibufexpl.vim'
+" ctrl-p plugin, use ctrl+p to search files
+Bundle 'kien/ctrlp.vim'
+" fugitive plugin, combine vim with git
+Bundle 'tpope/vim-fugitive'
+" syntastic plugin, show compiling error
+Bundle 'scrooloose/syntastic'
+Bundle 'Lokaltog/vim-easymotion'
+" google protobuf highlight
+Bundle 'fhenrysson/vim-protobuf'
+" markdown syntax support
+Bundle 'plasticboy/vim-markdown'
+" golang syntax support
+Bundle 'Blackrush/vim-gocode'
+" html/js format
+Bundle 'maksimr/vim-jsbeautify'
+
+" vim.org/scripts
+
+filetype plugin indent on
+" Vundle end
+
+" Vundle plugin setting
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+" Vundle plugin end
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" set mouse behave ,in xterm windows the middle key is to copy clipboard
+behave xterm
+
+" custom setting
+set nocompatible
+
+set backup              " keep a backup file.
+set history=50          " keep 50 lines of command line history.
+set ruler               " show the cursor position all the time.
+set showcmd             " display incomplete commands.
+set incsearch           " do incremental searching.
+set cmdheight=1 				" set command line height=1.
+
+set backupdir=~/.vim/backup
+set directory=~/.vim/swap
+set statusline=%F%(\ %m%r%h%w%)\ [%{&ff}]\ [%Y]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}%=[0x%B]\ [%l,%(%c%V%)]\ [%P]
+                                                                                 
+set number        " set show line numbers.
+set cmdheight=1   " set command line height.
+set noswapfile    " set no swap files.                                            
+set showmatch 		" set showmatch.
+set wildmenu 			" set command lines menu.
+set autoread
+set autowrite
+set autochdir
+set magic
+" custom setting end
+
+
+" word setting
+set backspace=indent,eol,start
+set iskeyword=@,48-57,_,192-255 " the keywords are letter _ number and visual Latain latter
+" select word under cursor
+nnoremap <space> viw
+" word setting end
+
+" command short-cut setting
+let mapleader=","
+" remove line in insert mode
+inoremap <c-d> <esc>ddi
+" to uppercase in insert mode
+inoremap <c-u> <esc>^v$~
+" vimrc short-cut, nore is short for No Recursion
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+iabbrev @@ ronaflx@google.com
+" control and command setting end
+" indent style setting
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set expandtab
+set wrap
+" indent style setting end
+
+" color setting
+colorscheme koehler
+set colorcolumn=81
+" colorcolumn setting end
+
+" judge the platform is window or linux
+if(has("win32") || has("win95") || has("win64") || has("win16"))
+	let g:vimrc_iswindows=1
+else
+	let g:vimrc_iswindows=0
+endif
+autocmd BufEnter * lcd %:p:h
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+	set mouse=a
+endif
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+	syntax on
+	set hlsearch
+endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+				\ | wincmd p | diffthis
+endif
+
+if has("gui_running")
+	set lines=72 columns=170
+endif
+set guifont=Ubuntu\ Mono\ 11
+set fileencodings=utf-8,GBK,GB18030,GB2312,usc-bot,latin1,default
+
+"===============Compile & Run the C Program With Input File==========
+map <F8> : call Compile_run_gcc_with_input_file()<CR>
+func! Compile_run_gcc_with_input_file()
+	exec "w"
+	if expand("%:e") == "cpp" || expand("%:e") == "cc"
+		exec "!clang++ % -o %< -Wall -std=c++0x"
+		exec "!%:p:r < %:p:r.in"
+	elseif expand("%:e") == "java"
+		exec "!javac %"
+		exec "!java %< < %:p:r.in"
+	elseif expand("%:e") == "py"
+		exec "!python % < %:p:r.in"
+	endif
+endfunc 
+
+"===============Compile & Run the C Program==========
+map <F6> : call Compile_run_gcc()<CR>
+func! Compile_run_gcc()
+	exec "w"
+	if expand("%:e") == "cpp" || expand("%:e") == "cc"
+		exec "!clang++ % -o %< -Wall -std=c++0x"
+		exec "! %:p:r"
+	elseif expand("%:e") == "c"
+		exec "!gcc % -o %< -Wall"
+		exec "! %:p:r"
+	elseif expand("%:e") == "py"
+		exec "!python %"
+	elseif expand("%:e") == "java"
+		exec "!javac %"
+		exec "!java %<" 
+	endif
+endfunc 
+
+"===============Compile the C Program==========
+map <C-F6> : call Compile_gcc()<CR>
+func! Compile_gcc()
+	make "%:p:r"
+endfunc 
+
+map <F7> : call GDB()<CR><CR>
+func! GDB()
+	exec "! gnome-terminal --workdir %:p:h -e gdb %:p:r 2>&1 >> /dev/null"
+endfunc
+
+" vim-latexsuite
+set grepprg=grep\ -nH\ $*
+"let g:tex_flavor = "latex"
+
+" clang-format
+map <C-K> :pyf /usr/local/bin/clang-format.py<CR>
+imap <C-K> <ESC>:pyf /usr/loca/bin/clang-format.py<CR>i
+
+" html-format
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
