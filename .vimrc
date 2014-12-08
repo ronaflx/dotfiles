@@ -15,9 +15,8 @@ Bundle 'scrooloose/nerdcommenter'
 " you complete me plugin, YCM
 Bundle 'Valloric/YouCompleteMe'
 " c++ hightlight plugin
+Bundle 'vim-jp/cpp-vim'
 Bundle 'octol/vim-cpp-enhanced-highlight'
-" minibuf plugin
-Bundle 'fholgado/minibufexpl.vim'
 " ctrl-p plugin, use ctrl+p to search files
 Bundle 'kien/ctrlp.vim'
 " fugitive plugin, combine vim with git
@@ -33,6 +32,8 @@ Bundle 'plasticboy/vim-markdown'
 Bundle 'Blackrush/vim-gocode'
 " html/js format
 Bundle 'maksimr/vim-jsbeautify'
+" vim-airline
+Bundle 'bling/vim-airline'
 
 " vim.org/scripts
 
@@ -41,6 +42,12 @@ filetype plugin indent on
 
 " Vundle plugin setting
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_complete_in_comments = 1
+set laststatus=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_left_sep = '>'
+let g:airline_right_sep = '<'
 " Vundle plugin end
 
 " Don't use Ex mode, use Q for formatting
@@ -145,7 +152,7 @@ map <F8> : call Compile_run_gcc_with_input_file()<CR>
 func! Compile_run_gcc_with_input_file()
 	exec "w"
 	if expand("%:e") == "cpp" || expand("%:e") == "cc"
-		exec "!clang++ % -o %< -Wall -std=c++0x"
+		exec "!clang++ % -o %< -Wall -std=c++0x -stdlib=libc++"
 		exec "!%:p:r < %:p:r.in"
 	elseif expand("%:e") == "java"
 		exec "!javac %"
