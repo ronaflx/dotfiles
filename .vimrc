@@ -1,43 +1,43 @@
 " Vundle setting
 " make sure on the top vim .vimrc
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set nocompatible              " be iMproved, required
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 "Required
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " Personal Plugins
 " super tab plugin
-Bundle 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 " comment plugin, use (\|,)c* to add comment
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 " you complete me plugin, YCM
-Bundle 'Valloric/YouCompleteMe'
-" c++ hightlight plugin
-Bundle 'vim-jp/cpp-vim'
-Bundle 'octol/vim-cpp-enhanced-highlight'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 " ctrl-p plugin, use ctrl+p to search files
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
 " fugitive plugin, combine vim with git
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " syntastic plugin, show compiling error
-Bundle 'scrooloose/syntastic'
-Bundle 'Lokaltog/vim-easymotion'
+Plugin 'scrooloose/syntastic'
+Plugin 'Lokaltog/vim-easymotion'
 " google protobuf highlight
-Bundle 'fhenrysson/vim-protobuf'
+Plugin 'fhenrysson/vim-protobuf'
 " markdown syntax support
-Bundle 'plasticboy/vim-markdown'
+Plugin 'plasticboy/vim-markdown'
 " golang syntax support
-Bundle 'Blackrush/vim-gocode'
+Plugin 'Blackrush/vim-gocode'
 " html/js format
-Bundle 'maksimr/vim-jsbeautify'
+Plugin 'maksimr/vim-jsbeautify'
 " vim-airline
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 
 " vim.org/scripts
 
-filetype plugin indent on
+call vundle#end()            " required
+filetype plugin indent on    " required
 " Vundle end
 
 " Vundle plugin setting
@@ -57,8 +57,6 @@ map Q gq
 behave xterm
 
 " custom setting
-set nocompatible
-
 set backup              " keep a backup file.
 set history=50          " keep 50 lines of command line history.
 set ruler               " show the cursor position all the time.
