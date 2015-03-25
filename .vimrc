@@ -40,11 +40,25 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " Vundle end
 
+" command short-cut setting
+let mapleader=","
+" remove line in insert mode
+inoremap <c-d> <esc>ddi
+" to uppercase in insert mode
+inoremap <c-u> <esc>^v$~
+" vimrc short-cut, nore is short for No Recursion
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+iabbrev @@ ronaflx@google.com
+" command short-cut setting end
+
 " Vundle plugin setting
+" YCM
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_complete_in_comments = 1
-set laststatus=2
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
+" Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_left_sep = '>'
 let g:airline_right_sep = '<'
@@ -63,11 +77,12 @@ set ruler               " show the cursor position all the time.
 set showcmd             " display incomplete commands.
 set incsearch           " do incremental searching.
 set cmdheight=1 				" set command line height=1.
+set laststatus=2
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
 set statusline=%F%(\ %m%r%h%w%)\ [%{&ff}]\ [%Y]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}%=[0x%B]\ [%l,%(%c%V%)]\ [%P]
-                                                                                 
+
 set number        " set show line numbers.
 set cmdheight=1   " set command line height.
 set noswapfile    " set no swap files.                                            
@@ -87,17 +102,6 @@ set iskeyword=@,48-57,_,192-255 " the keywords are letter _ number and visual La
 nnoremap <space> viw
 " word setting end
 
-" command short-cut setting
-let mapleader=","
-" remove line in insert mode
-inoremap <c-d> <esc>ddi
-" to uppercase in insert mode
-inoremap <c-u> <esc>^v$~
-" vimrc short-cut, nore is short for No Recursion
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-iabbrev @@ ronaflx@google.com
-" control and command setting end
 " indent style setting
 set shiftwidth=2
 set tabstop=2
@@ -165,7 +169,7 @@ map <F6> : call Compile_run_gcc()<CR>
 func! Compile_run_gcc()
 	exec "w"
 	if expand("%:e") == "cpp" || expand("%:e") == "cc"
-		exec "!clang++ % -o %< -Wall -std=c++0x"
+		exec "!clang++ % -o %< -Wall -std=c++0x -lpthread"
 		exec "! %:p:r"
 	elseif expand("%:e") == "c"
 		exec "!gcc % -o %< -Wall"
@@ -194,8 +198,8 @@ set grepprg=grep\ -nH\ $*
 "let g:tex_flavor = "latex"
 
 " clang-format
-map <C-K> :pyf /usr/local/bin/clang-format.py<CR>
-imap <C-K> <ESC>:pyf /usr/loca/bin/clang-format.py<CR>i
+map <C-K> :pyf ~/.clang-format.py<CR>
+imap <C-K> <ESC>:pyf ~/.clang-format.py<CR>i
 
 " html-format
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
