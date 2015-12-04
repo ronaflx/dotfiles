@@ -30,16 +30,18 @@ Plugin 'plasticboy/vim-markdown'
 " golang syntax support
 Plugin 'Blackrush/vim-gocode'
 " html/js format
-Plugin 'maksimr/vim-jsbeautify'
+Plugin 'pangloss/vim-javascript'
 " vim-airline
 Plugin 'bling/vim-airline'
+" vim-tmux
+Plugin 'christoomey/vim-tmux-navigator'
 
 " vim.org/scripts
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Vundle end
-
+ 
 " command short-cut setting
 let mapleader=","
 " remove line in insert mode
@@ -52,11 +54,13 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 iabbrev @@ ronaflx@google.com
 " command short-cut setting end
 
+
 " Vundle plugin setting
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_complete_in_comments = 1
+let g:ycm_confirm_extra_conf = 0
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -82,7 +86,7 @@ set laststatus=2
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
 set statusline=%F%(\ %m%r%h%w%)\ [%{&ff}]\ [%Y]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}%=[0x%B]\ [%l,%(%c%V%)]\ [%P]
-
+                                                                                 
 set number        " set show line numbers.
 set cmdheight=1   " set command line height.
 set noswapfile    " set no swap files.                                            
