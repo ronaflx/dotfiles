@@ -9,51 +9,34 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Personal Plugins
-" super tab plugin
+" super tab plugin.
 Plugin 'ervandew/supertab'
-" comment plugin, use (\|,)c* to add comment
-Plugin 'scrooloose/nerdcommenter'
-" you complete me plugin, YCM
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-" ctrl-p plugin, use ctrl+p to search files
-Plugin 'kien/ctrlp.vim'
-" fugitive plugin, combine vim with git
-Plugin 'tpope/vim-fugitive'
-" syntastic plugin, show compiling error
+" you complete me plugin, YCM.
+Plugin 'ycm-core/YouCompleteMe'
+" syntastic plugin, show compiling error.
 Plugin 'scrooloose/syntastic'
-Plugin 'Lokaltog/vim-easymotion'
-" google protobuf highlight
+" NerdTree to navigate file directory.
+Plugin 'scrooloose/nerdtree'
+" google protobuf highlight.
 Plugin 'fhenrysson/vim-protobuf'
-" markdown syntax support
+" markdown syntax support.
 Plugin 'plasticboy/vim-markdown'
-" golang syntax support
-Plugin 'Blackrush/vim-gocode'
-" html/js format
+" html/js format.
 Plugin 'pangloss/vim-javascript'
-" vim-airline
+" vim-airline.
 Plugin 'bling/vim-airline'
-" vim-tmux
+" vim-tmux.
 Plugin 'christoomey/vim-tmux-navigator'
+" clang-format.
+Plugin 'rhysd/vim-clang-format'
+" C++ syntax hightlight.
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " vim.org/scripts
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Vundle end
- 
-" command short-cut setting
-let mapleader=","
-" remove line in insert mode
-inoremap <c-d> <esc>ddi
-" to uppercase in insert mode
-inoremap <c-u> <esc>^v$~
-" vimrc short-cut, nore is short for No Recursion
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-iabbrev @@ ronaflx@google.com
-" command short-cut setting end
-
 
 " Vundle plugin setting
 " YCM
@@ -61,7 +44,7 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_min_num_of_chars_for_completion = 2
 let g:ycm_complete_in_comments = 1
 let g:ycm_confirm_extra_conf = 0
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
+
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_left_sep = '>'
@@ -158,7 +141,7 @@ map <F8> : call Compile_run_gcc_with_input_file()<CR>
 func! Compile_run_gcc_with_input_file()
 	exec "w"
 	if expand("%:e") == "cpp" || expand("%:e") == "cc"
-		exec "!clang++ % -o %< -Wall -std=c++0x -stdlib=libc++"
+		exec "!clang++ % -o %< -Wall -std=c++14 -stdlib=libc++"
 		exec "!%:p:r < %:p:r.in"
 	elseif expand("%:e") == "java"
 		exec "!javac %"
@@ -173,7 +156,7 @@ map <F6> : call Compile_run_gcc()<CR>
 func! Compile_run_gcc()
 	exec "w"
 	if expand("%:e") == "cpp" || expand("%:e") == "cc"
-		exec "!clang++ % -o %< -Wall -std=c++0x -lpthread"
+		exec "!clang++ % -o %< -Wall -std=c++14 -lpthread"
 		exec "! %:p:r"
 	elseif expand("%:e") == "c"
 		exec "!gcc % -o %< -Wall"
@@ -197,13 +180,27 @@ func! GDB()
 	exec "! gnome-terminal --workdir %:p:h -e gdb %:p:r 2>&1 >> /dev/null"
 endfunc
 
-" vim-latexsuite
-set grepprg=grep\ -nH\ $*
-"let g:tex_flavor = "latex"
-
 " clang-format
-map <C-K> :pyf ~/.clang-format.py<CR>
-imap <C-K> <ESC>:pyf ~/.clang-format.py<CR>i
+let g:clang_format#code_style = 'google'
+autocmd FileType c ClangFormatAutoEnable
+ 
+" command short-cut setting
+let mapleader=","
+" remove line in insert mode
+inoremap <C-D> <esc>ddi
+" to uppercase in insert mode
+inoremap <C-U> <esc>^v$~
+" vimrc short-cut, nore is short for No Recursion
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+noremap <C-G> :ClangFormat<CR>
+inoremap <C-G> <C-O>:ClangFormat<CR>
+map <C-N> :NERDTreeToggle<CR>
+iabbrev @@ 900831flx@gmail.com
+" command short-cut setting end
+
+
 
 " html-format
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
@@ -211,3 +208,4 @@ autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 " for css or scss
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
