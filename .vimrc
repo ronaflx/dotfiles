@@ -184,6 +184,8 @@ endfunc
 " clang-format
 let g:clang_format#code_style = 'google'
 autocmd FileType c ClangFormatAutoEnable
+noremap <C-G> :ClangFormat<CR>
+inoremap <C-G> <C-O>:ClangFormat<CR>
  
 " command short-cut setting
 let mapleader=","
@@ -195,12 +197,8 @@ inoremap <C-U> <esc>^v$~
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-noremap <C-G> :ClangFormat<CR>
-inoremap <C-G> <C-O>:ClangFormat<CR>
 map <C-N> :NERDTreeToggle<CR>
 iabbrev @@ 900831flx@gmail.com
-" command short-cut setting end
-
 
 
 " html-format
