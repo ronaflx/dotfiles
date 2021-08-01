@@ -31,8 +31,9 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'rhysd/vim-clang-format'
 " C++ syntax hightlight.
 Plugin 'octol/vim-cpp-enhanced-highlight'
-
-" vim.org/scripts
+" Bazel support.
+Plugin 'google/vim-maktaba'
+Plugin 'bazelbuild/vim-bazel'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -141,7 +142,7 @@ map <F8> : call Compile_run_gcc_with_input_file()<CR>
 func! Compile_run_gcc_with_input_file()
 	exec "w"
 	if expand("%:e") == "cpp" || expand("%:e") == "cc"
-		exec "!clang++ % -o %< -Wall -std=c++14 -stdlib=libc++"
+		exec "!clang++ % -o %< -Wall -std=c++17 -stdlib=libc++"
 		exec "!%:p:r < %:p:r.in"
 	elseif expand("%:e") == "java"
 		exec "!javac %"
@@ -156,7 +157,7 @@ map <F6> : call Compile_run_gcc()<CR>
 func! Compile_run_gcc()
 	exec "w"
 	if expand("%:e") == "cpp" || expand("%:e") == "cc"
-		exec "!clang++ % -o %< -Wall -std=c++14 -lpthread"
+		exec "!clang++ % -o %< -Wall -std=c++17 -stdlib=libc++"
 		exec "! %:p:r"
 	elseif expand("%:e") == "c"
 		exec "!gcc % -o %< -Wall"
